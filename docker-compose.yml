@@ -1,0 +1,26 @@
+services:
+
+  baby-sleep-coach:
+    container_name: baby-sleep-coach
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    restart: unless-stopped
+    ports:
+      - "${PORT}:${PORT}"
+      - "8000:8000"
+      - "8001:8001"
+    networks:
+      - domotica_network
+    env_file:
+      - .env
+    environment:
+      - TZ=Europe/Rome
+    volumes:
+      - .:/usr/app/babysleepcoach
+      - /usr/app/babysleepcoach/webapp/node_modules
+
+networks:
+  domotica_network:
+    name: domotica_network
+    external: true
